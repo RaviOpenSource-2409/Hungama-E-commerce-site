@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Humngama — Shop More, Pay Less</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+
+      <!-- Logo -->
+      <a href="#" class="logo" onclick="showPage('home'); return false;">
+        <img src="logo.png" alt="Hungama" class="logo-img" />
+      </a>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Search for products, brands and more…"
+          oninput="handleSearch()"
+        />
+        <button class="search-btn" onclick="handleSearch()" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="nav-links">
+        <a href="#" class="nav-link" onclick="showPage('home'); return false;">Home</a>
+        <a href="#" class="nav-link" onclick="filterCategory('all', null); showPage('home'); return false;">Deals</a>
+        <button class="cart-btn" onclick="showPage('cart')" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          Cart
+          <span class="cart-count" id="cartCount" style="display:none">0</span>
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- HOME PAGE -->
+  <main id="page-home" class="page active">
+
+    <!-- Hero Banner -->
+    <section class="hero">
+      <div class="hero-inner container">
+        <div class="hero-text">
+          <span class="hero-eyebrow">India's Favourite Shopping Destination</span>
+          <h1 class="hero-title">Shop <em>Smarter,</em><br/>Save Bigger</h1>
+          <p class="hero-sub">Millions of products. Best prices. Fast delivery.</p>
+          <button class="btn-primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+            Shop Now →
+          </button>
+        </div>
+        <div class="hero-badges">
+          <div class="hero-badge">
+            <strong>50%+</strong>
+            <span>Off on Top Brands</span>
+          </div>
+          <div class="hero-badge">
+            <strong>Free</strong>
+            <span>Delivery ₹499+</span>
+          </div>
+          <div class="hero-badge">
+            <strong>Easy</strong>
+            <span>Returns & Refunds</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Pills -->
+    <section class="category-bar" id="shop">
+      <div class="container">
+        <div class="cat-pills" id="catPills">
+          <button class="cat-pill active" onclick="filterCategory('all', this)">
+            <span class="pill-icon">🏪</span> All
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Fashion', this)">
+            <span class="pill-icon">👗</span> Fashion
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Electronics', this)">
+            <span class="pill-icon">📱</span> Electronics
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Home & Kitchen', this)">
+            <span class="pill-icon">🍳</span> Home & Kitchen
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Beauty', this)">
+            <span class="pill-icon">💄</span> Beauty
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Grocery', this)">
+            <span class="pill-icon">🛒</span> Grocery
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Sports', this)">
+            <span class="pill-icon">⚽</span> Sports
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Toys', this)">
+            <span class="pill-icon">🧸</span> Toys
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Books', this)">
+            <span class="pill-icon">📚</span> Books
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Automotive', this)">
+            <span class="pill-icon">🚗</span> Automotive
+          </button>
+          <button class="cat-pill" onclick="filterCategory('Pet Supplies', this)">
+            <span class="pill-icon">🐾</span> Pet Supplies
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Featured Products</h2>
+          <span class="product-count" id="productCount"></span>
+        </div>
+        <div class="product-grid" id="productGrid">
+          <div class="skeleton-card"><div class="skel-img"></div><div class="skel-line w60"></div><div class="skel-line w40"></div></div>
+          <div class="skeleton-card"><div class="skel-img"></div><div class="skel-line w70"></div><div class="skel-line w50"></div></div>
+          <div class="skeleton-card"><div class="skel-img"></div><div class="skel-line w55"></div><div class="skel-line w35"></div></div>
+          <div class="skeleton-card"><div class="skel-img"></div><div class="skel-line w65"></div><div class="skel-line w45"></div></div>
+          <div class="skeleton-card"><div class="skel-img"></div><div class="skel-line w60"></div><div class="skel-line w40"></div></div>
+          <div class="skeleton-card"><div class="skel-img"></div><div class="skel-line w70"></div><div class="skel-line w50"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Banner -->
+    <section class="banner-strip">
+      <div class="container">
+        <div class="banner-grid">
+          <div class="banner-item">
+            <div class="bi-icon">🚚</div>
+            <strong>Free Delivery</strong>
+            <span>On orders above ₹499</span>
+          </div>
+          <div class="banner-item">
+            <div class="bi-icon">🔄</div>
+            <strong>Easy Returns</strong>
+            <span>7-day hassle-free returns</span>
+          </div>
+          <div class="banner-item">
+            <div class="bi-icon">✅</div>
+            <strong>100% Genuine</strong>
+            <span>Verified sellers only</span>
+          </div>
+          <div class="banner-item">
+            <div class="bi-icon">🔒</div>
+            <strong>Secure Payments</strong>
+            <span>UPI, Cards, Net Banking</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PRODUCT DETAIL PAGE -->
+  <main id="page-detail" class="page">
+    <div class="container">
+      <button class="back-btn" onclick="showPage('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Back to products
+      </button>
+      <div class="detail-grid" id="detailContent"></div>
+    </div>
+  </main>
+
+  <!-- CART PAGE -->
+  <main id="page-cart" class="page">
+    <div class="container">
+      <button class="back-btn" onclick="showPage('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Continue Shopping
+      </button>
+      <h2 class="cart-title">🛒 My Cart</h2>
+      <div class="cart-layout">
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-summary" id="cartSummary"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="products.js"></script>
+  <script src="cart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
